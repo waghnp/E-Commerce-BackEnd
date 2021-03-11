@@ -13,6 +13,21 @@ router.get('/',async (req,res)=>{
         res.status(401).send({msg:error.message})
     }   
 })
+
+router.get('/:id',async (req,res)=>{
+    try{
+        const product=await Product.findOne({_id:req.params.id});
+        if(product){
+            res.status(201).send(product);
+        }else{
+            res.status(404).send("Product Not Found")
+        }
+        
+    }catch(error){
+        res.status(401).send({msg:error.message})
+    }   
+})
+
 router.put('/:id',isAuth,isAdmin,async(req,res)=>{
     const product=await Product.findById(req.params.id)
     console.log('from back end for updating product found ',product)
